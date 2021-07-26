@@ -6,10 +6,10 @@ nproc
 cat /etc/os*
 env
 
-url=https://ancient-bush-fa07.010-hugo-ad.workers.dev/ccache/ccache.tar.gz #here my ccache is located
+url=https://plain-salad-9b42.011-hugo-ad.workers.dev/ccache/ccache.tar.gz #here my ccache is located
 
 export CCACHE_DIR=/tmp/ccache
 cd /tmp # Where to download cccahe
-time wget $url # Using aria2c for speed haha, ccache will be at /tmp/ccache.tar.gz since my file name is ccache.tar.gz
+time wget $url # ccache will be at /tmp/ccache.tar.gz since my file name is ccache.tar.gz
 time tar xf ccache.tar.gz  # Extract ccache so ci can use it
 rm -rf ccache.tar.gz # Remove unnecessary downloaded file, it will speed up the upload ccache process

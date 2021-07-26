@@ -1,16 +1,15 @@
 #!/bin/bash
 cd /tmp/rom # Depends on where source got synced
 
-curl https://gist.githubusercontent.com/SuperCosmicBeing/c6db35d8abfa480e183a66b71ffca563/raw/3f5f1fc6d02ae767479bda37c04ea417a229f7eb/gms_full.mk >> gms_full.mk
-mv gms_full.mk vendor/gms/
 rm -rf device/generic/opengl-transport
 
 # Normal build steps
 . build/envsetup.sh
-lunch derp_vince-user
+lunch aosp_vince-userdebug
 export CCACHE_DIR=/tmp/ccache
 export CCACHE_EXEC=$(which ccache)
 export USE_CCACHE=1
+export SELINUX_IGNORE_NEVERALLOWS=true
 ccache -M 20G # It took only 6.4GB for mido
 ccache -o compression=true # Will save times and data to download and upload ccache, also negligible performance issue
 ccache -z # Clear old stats, so monitor script will provide real ccache statistics
@@ -20,7 +19,7 @@ ccache -z # Clear old stats, so monitor script will provide real ccache statisti
 mka api-stubs-docs || echo no problem, we need ccache
 mka system-api-stubs-docs || echo no problem we need ccache
 mka test-api-stubs-docs || echo no problem, we need ccache
-mka derp -j10 & # dont remove that '&'
+mka bacon -j10 & # dont remove that '&'
 sleep 68m
 kill %1
 ccache -s
@@ -48,6 +47,7 @@ tg(){
 id=-1001273969756 # Your telegram id
 
 #get some ccache message
+tg $id "User - XPUB-A"
 tg $id "Got some ccache"
 
 # Create rclone config first
@@ -57,21 +57,20 @@ echo "$rclone_config" > ~/.config/rclone/rclone.conf
 # Upload rom zip file if succeed to build! Send notification to tg! And send shell to tg if build fails!
 
 # Send Build started message on start of build
-#tg $id "Build started (Derp)"
+#tg $id "Build started (PE-Plus)"
 
 # Let's compile by parts! Coz of ram issue!
 #mka api-stubs-docs || echo no problem
 #mka system-api-stubs-docs || echo no problem
 #mka test-api-stubs-docs || echo no problem
 
-#mka derp -j10 \
-#        && send_zip=$(up out/target/product/vince/D*.zip) && tg $id "Build Succeed! $send_zip" 
+#mka bacon -j10 \
+#        && send_zip=$(up out/target/product/vince/P*.zip) && tg $id "Build Succeed! $send_zip" 
 #	|| tmate -S /tmp/tmate.sock new-session -d && tmate -S /tmp/tmate.sock wait tmate-ready && send_shell=$(tmate -S /tmp/tmate.sock display -p '#{tmate_ssh}') && tg $id "Build Failed" && tg $id "$send_shell" && ccache -s && sleep 2h # later we'll  check this
-#up out/target/product/vince/DerpFest*.sha256sum && echo "Sent sha256sum file "
-#up out/target/product/vince/vince.json && echo "Sent json file "
+#up out/target/product/vince/Pixel*.sha256sum && echo "Sent sha256sum file "
 
-#tg $id "Build uploaded"
-#tg $id "Link: https://ancient-bush-fa07.010-hugo-ad.workers.dev/junk/$(basename out/target/product/vince/Der*.zip)"
+#tg $id "Build uploaded (PE-Plus)"
+#tg $id "Link: https://plain-salad-9b42.011-hugo-ad.workers.dev/junk/$(basename out/target/product/vince/Pixel*.zip)"
 ls out/target/product/vince # Show out directory content
 #ccache -s # Let's print ccache statistics finally
 tg $id "Cache\n\n$(ccache -s)"
