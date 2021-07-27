@@ -48,9 +48,9 @@ id=-1001273969756 # Your telegram id
 #get some ccache message
 tg $id "User - XPUB-A"
 tg $id "Got some ccache (PE-PLus)"
-tg $id "Machine
-RAM: 32GB
-Core: 10" 
+tg $id "<b>Machine : </b>
+<b>RAM:</b> 32GB
+<b>Core:</b> 10" 
 
 # Create rclone config first
 mkdir -p ~/.config/rclone
@@ -75,4 +75,5 @@ echo "$rclone_config" > ~/.config/rclone/rclone.conf
 #tg $id "Link: https://plain-salad-9b42.011-hugo-ad.workers.dev/junk/$(basename out/target/product/vince/Pixel*.zip)"
 ls out/target/product/vince # Show out directory content
 #ccache -s # Let's print ccache statistics finally
-tg $id "Cache\n\n$(ccache -s)"
+tg $id "<b>Cache : </b>
+$(ccache -s)"
